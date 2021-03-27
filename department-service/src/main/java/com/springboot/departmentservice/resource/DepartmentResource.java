@@ -4,6 +4,7 @@ import com.springboot.departmentservice.entity.Department;
 import com.springboot.departmentservice.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,13 +15,14 @@ public class DepartmentResource {
     private DepartmentService departmentService;
 
     @GetMapping("/{id}")
-    public Department getDepartmentById(@PathVariable("id") String id){
+    public ResponseEntity<Department> getDepartmentById(@PathVariable("id") String id){
      Long departmentId =   Long.valueOf(id);
-     return departmentService.findById(departmentId);
+     return ResponseEntity.ok(departmentService.findById(departmentId));
     }
 
     @PostMapping("/")
-    public Department saveDepartment(@RequestBody Department department){
-        return departmentService.saveDepartment(department);
+    public ResponseEntity<Department> saveDepartment(@RequestBody Department department){
+        return ResponseEntity.ok(departmentService.saveDepartment(department));
+
     }
 }
