@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/departments/")
+@RequestMapping("/api/departments")
 public class DepartmentResource {
 
     @Autowired
@@ -19,7 +19,7 @@ public class DepartmentResource {
      return departmentService.findById(departmentId);
     }
 
-    @PostMapping()
+    @PostMapping("/")
     public Department saveDepartment(@RequestBody Department department){
         return departmentService.saveDepartment(department);
     }

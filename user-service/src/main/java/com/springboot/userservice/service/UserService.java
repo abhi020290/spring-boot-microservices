@@ -38,7 +38,7 @@ public class UserService {
         Long aLong = Long.valueOf(id);
         Optional<User> optionalUser = userRepository.findById(aLong);
         User user = optionalUser.orElse(null);
-        String url = "http://localhost:9002/api/departments/"+user.getDepartmentId();
+        String url = "http://DEPARTMENT-SERVICE/api/departments/"+user.getDepartmentId();
         ResponseEntity<Department> response = restTemplate.exchange(url, HttpMethod.GET, null, Department.class);
         Department department = response.getBody();
         UserDepartmentVO vo = new UserDepartmentVO();
