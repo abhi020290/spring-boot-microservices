@@ -5,6 +5,7 @@ import com.springboot.userservice.pojo.UserDepartmentVO;
 import com.springboot.userservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,21 +17,23 @@ public class UserResource {
     private UserService userService;
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable("id") String id) {
+    public ResponseEntity<User> getUserById(@PathVariable("id") String id) {
         Long aLong = Long.valueOf(id);
-        return userService.getUserById(aLong);
+         return ResponseEntity.ok(userService.getUserById(aLong));
     }
 
     @PostMapping("/")
-    public User saveUser(@RequestBody User user){
+    public ResponseEntity<User> saveUser(@RequestBody User user){
         log.info("User Resource saveUser");
-       return  userService.saveUser(user);
+        return ResponseEntity.ok(userService.saveUser(user));
+
     }
 
     @GetMapping("/departments/{id}")
-    public UserDepartmentVO getUserWithDepartment(@PathVariable("id") String id) {
+    public ResponseEntity<UserDepartmentVO> getUserWithDepartment(@PathVariable("id") String id) {
         Long aLong = Long.valueOf(id);
-         return userService.getUserWithDepartment(aLong);
-       }
+        return ResponseEntity.ok(userService.getUserWithDepartment(aLong));
+
+    }
 
 }
