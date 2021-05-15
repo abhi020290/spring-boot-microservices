@@ -4,7 +4,6 @@ server:
 spring:
   application:
     name: CLOUD-GATEWAY
-
   cloud:
     gateway:
       routes:
@@ -13,7 +12,7 @@ spring:
           predicates:
             - Path=/api/users/**
           filters:
-            - name : CircuitBreaker
+            - name: CircuitBreaker
               args:
                 name: USER-SERVICE
                 fallbackuri: forward:/fallbackUserService
