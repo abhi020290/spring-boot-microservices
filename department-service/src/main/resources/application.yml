@@ -13,3 +13,9 @@ eureka:
       defaultZone: http://localhost:8761/eureka
     registerWithEureka: true
     fetchRegistry: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,bean,info

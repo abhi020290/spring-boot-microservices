@@ -19,3 +19,9 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,bean,info
+

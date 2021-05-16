@@ -1,0 +1,89 @@
+version: '3'
+
+services:
+  service-registry:
+    container_name: service-registry_container
+    build:
+      context: service-registry/.
+      dockerfile: Dockerfile
+    image: 'service-registry'
+    ports:
+      - 8761:8761
+    networks:
+      - container-network
+
+  department-service:
+    container_name: department-service_container
+    build:
+      context: department-service/.
+      dockerfile: Dockerfile
+    image: 'department-service'
+    ports:
+      - 9002:9002
+    links:
+      - service-registry
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://service-registry:8761/eureka
+      - eureka.instance.hostname=<host-ip>
+    networks:
+      - container-network
+
+  user-service:
+    container_name: user-service_container
+    build:
+      context: user-service/.
+      dockerfile: Dockerfile
+    image: 'user-service'
+    ports:
+      - 9001:9001
+    links:
+      - service-registry
+      - department-service
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://service-registry:8761/eureka
+      - eureka.instance.hostname=<host-ip>
+    networks:
+      - container-network
+
+  cloud-gateway:
+    container_name: cloud-gateway_container
+    build:
+      context: cloud-gateway/.
+      dockerfile: Dockerfile
+    image: 'cloud-gateway'
+    ports:
+      - 9191:9191
+    links:
+      - service-registry
+      - department-service
+      - user-service
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://service-registry:8761/eureka
+      - eureka.instance.hostname=<host-ip>
+    networks:
+      - container-network
+
+  hystrix-dashboard:
+    container_name: hystrix-dashboard_container
+    build:
+      context: hystrix-dashboard/.
+      dockerfile: Dockerfile
+    image: 'hystrix-dashboard'
+    ports:
+      - 9295:9295
+    links:
+      - service-registry
+      - cloud-gateway
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://service-registry:8761/eureka
+      - eureka.instance.hostname=<host-ip>
+      - hystrix.dashboard.proxy-stream-allow-list=<host-ip>
+    networks:
+      - container-network
+
+networks:
+  container-network:
+    driver: bridge
+
+
+

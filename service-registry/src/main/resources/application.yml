@@ -10,3 +10,8 @@ spring:
   application:
     name: EUREKA-SERVER
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,bean,info

@@ -1,5 +1,6 @@
 package com.springboot.userservice.resource;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.springboot.userservice.entity.User;
 import com.springboot.userservice.pojo.UserDepartmentVO;
 import com.springboot.userservice.service.UserService;
@@ -17,12 +18,14 @@ public class UserResource {
     private UserService userService;
 
     @GetMapping("/{id}")
+    @HystrixCommand
     public ResponseEntity<User> getUserById(@PathVariable("id") String id) {
         Long aLong = Long.valueOf(id);
          return ResponseEntity.ok(userService.getUserById(aLong));
     }
 
     @PostMapping("/")
+    @HystrixCommand
     public ResponseEntity<User> saveUser(@RequestBody User user){
         log.info("User Resource saveUser");
         return ResponseEntity.ok(userService.saveUser(user));
@@ -30,6 +33,7 @@ public class UserResource {
     }
 
     @GetMapping("/departments/{id}")
+    @HystrixCommand
     public ResponseEntity<UserDepartmentVO> getUserWithDepartment(@PathVariable("id") String id) {
         Long aLong = Long.valueOf(id);
         return ResponseEntity.ok(userService.getUserWithDepartment(aLong));
